@@ -12,7 +12,7 @@
 | 综合 | 其他 | `安徽 律师事务所 招标公告 2026年11月` |
 | 地市（`full` 深度或 `--cities`） | 16 个地市 | `芜湖 法律顾问 招标 2026年11月` |
 
-标准深度 17 条查询；`full` 深度覆盖最近两个月并加上 16 个地市，共 62 条；`quick` 深度只发 6 条。查看实际查询：`python scripts/radar.py web-queries`。
+标准深度 17 条查询；`full` 深度覆盖最近两个月并加上 16 个地市，共 62 条；`quick` 深度只发 6 条。查看实际查询：`sh scripts/radar.sh web-queries`。
 
 ## 两种执行方式
 
@@ -44,7 +44,7 @@ Codex、DeepSeek Harness、WorkBuddy、Claude Code 等都有联网搜索。流�
 
 配置后 `collect` 和 `daily` 默认启用（`--web auto`）；`--web off` 关闭，`--web on` 强制要求已配置。可选字段：`count`（每条查询返回数，默认 10）、`layers`（只跑指定层，如 `["国资国企","金融机构"]`）、`cities`（追加地市）。
 
-> 博查和 Tavily 的接入按其公开文档编写，开发时没有 Key，未做真实联调；SearXNG 只用本地模拟服务器测试过。首次使用请先运行 `python scripts/radar.py collect --depth quick --sources web` 确认能返回结果。
+> 博查和 Tavily 的接入按其公开文档编写，开发时没有 Key，未做真实联调；SearXNG 只用本地模拟服务器测试过。首次使用请先运行 `sh scripts/radar.sh collect --depth quick --sources web` 确认能返回结果。
 
 ## 线索怎么处理
 

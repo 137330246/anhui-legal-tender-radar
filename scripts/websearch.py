@@ -70,7 +70,8 @@ def month_labels(start, end, latest=2):
 
 
 def queries(start, end, depth='standard', cities=None, layers=None):
-    """返回 [{'layer','query'}]。standard：各层 × 最新月份；full：再加最近两个月与 16 个地市。"""
+    """返回 [{'layer','query'}]。standard：各层 × 最新月份；full：再加最近两个月与 16 个地市；
+    quick：只取 6 条基础查询。用户明确指定的 cities 在任何深度都保留。"""
     months = month_labels(start, end, 2 if depth == 'full' else 1)
     out = []
     for layer, templates in LAYERS.items():
@@ -79,12 +80,12 @@ def queries(start, end, depth='standard', cities=None, layers=None):
         for t in templates:
             for m in months:
                 out.append({'layer': layer, 'query': t.format(m=m)})
+    if depth == 'quick':
+        out = [q for q in out if q['layer'] in ('国资国企', '金融机构', '综合')][:6]
     city_list = cities if cities else (CITIES if depth == 'full' else [])
     for city in city_list:
         for t in CITY_TEMPLATES:
             out.append({'layer': f'地市·{city}', 'query': t.format(city=city, m=months[0])})
-    if depth == 'quick':
-        out = [q for q in out if q['layer'] in ('国资国企', '金融机构', '综合')][:6]
     return out
 
 

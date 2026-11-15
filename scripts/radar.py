@@ -31,7 +31,7 @@ import sources  # noqa: E402
 import websearch  # noqa: E402
 from extract import BEIJING  # noqa: E402
 
-VERSION = '0.9.0'
+VERSION = '0.9.1'
 SKILL_DIR = Path(__file__).resolve().parent.parent
 
 DEFAULT_KEYWORDS = {

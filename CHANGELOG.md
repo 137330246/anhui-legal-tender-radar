@@ -1,5 +1,28 @@
 # 更新日志
 
+## 0.9.1 预览版（2026-11-15）
+
+### 新增
+
+- **启动脚本**：`scripts/radar.cmd`（Windows）和 `scripts/radar.sh`（macOS / Linux）自动寻找 Python 3.9+，依次尝试环境变量 `RADAR_PYTHON`、`py`、`python`、`python3`，以及 WorkBuddy 自带的 Python。找不到时打印各系统的安装方法，并以退出码 127 结束。SKILL.md 和文档中的命令统一改为通过启动脚本运行。
+- **简易模式**（`references/no-python.md`）：没有 Python、用户又不安装时，Agent 只用自带的联网搜索和网页读取完成检索与核实。报告醒目标注简易模式及其局限；不调用官方检索接口、不扫描法院官网、不能自动推送。
+- SKILL.md 新增第 0 步「检查运行环境」：交互场景下询问用户是安装还是用简易模式，定时任务找不到 Python 时直接走简易模式。
+
+### 修复
+
+- `quick` 深度下，用户用 `--cities` 指定的地市查询会被过滤掉，现在任何深度都保留。
+
+### 已验证
+
+- 启动脚本在 Windows（cmd / PowerShell）和 Git Bash 下测试了四种情况：正常找到 Python、只能找到 WorkBuddy 自带的 Python、通过 `RADAR_PYTHON` 指定、完全找不到；中文参数能正确传递。
+- WorkBuddy（Windows 版）自带的 Python 3.13 可以跑通全部测试。
+- 39 个离线测试通过（新增启动脚本测试，以及简易模式文档与代码查询词一致性的检查）。
+
+### 未验证
+
+- macOS 上 WorkBuddy 自带 Python 的路径是推测的，未在 Mac 上确认；找不到时会继续尝试系统的 `python3`。
+- 简易模式只经过文档审查，尚未在 Agent 平台上实际运行一次。
+
 ## 0.9.0 预览版（2026-11-15）
 
 首个公开预览版。

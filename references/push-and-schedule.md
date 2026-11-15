@@ -5,7 +5,7 @@
 1. 复制 `config.example.json` 到 `~/.anhui-legal-radar/config.json`（Windows：`%USERPROFILE%\.anhui-legal-radar\config.json`）。
 2. 把要用的渠道改为 `"enabled": true`。
 3. 把密钥写进**环境变量**，配置文件里只写变量名（`*_env` 字段）。不要把密钥提交到 Git，也不要发给 AI。
-4. 测试：`python scripts/radar.py push --report <任一报告.md>`。
+4. 测试：`sh scripts/radar.sh push --report <任一报告.md>`（Windows：`scripts\radar.cmd push --report <任一报告.md>`）。
 
 | 渠道 | `type` | 需要的环境变量 | 获取方式 |
 |---|---|---|---|
@@ -34,7 +34,7 @@ export RADAR_SMTP_PASSWORD='你的授权码'
 
 ### 推送逻辑（所有方式通用）
 
-`radar.py daily` 每次运行都会：
+`daily` 命令每次运行都会：
 
 1. 采集近 N 天的公告（默认 30 天，standard 深度）。
 2. 和 `~/.anhui-legal-radar/state.json` 比对，找出**新增公告**（首次出现的可报名、待核实、意向、更正）和**截止提醒**（已推送过的可报名项目，在截止前 3 天和 1 天各提醒一次）。
@@ -49,10 +49,10 @@ export RADAR_SMTP_PASSWORD='你的授权码'
 
 ```text
 使用 anhui-legal-tender-radar skill 执行每日推送：
-1. 运行 radar.py collect --days 30。
-2. 按 SKILL.md 第 1.5 步做搜索引擎兜底：运行 radar.py web-queries，用你的联网搜索逐条执行，把具体公告的链接写进 leads.json，再运行 radar.py add-leads。
+1. 用启动脚本（Windows 用 scripts\radar.cmd，macOS / Linux 用 sh scripts/radar.sh）运行 collect --days 30。如果提示 PYTHON_NOT_FOUND，按 references/no-python.md 的简易模式执行，并在汇报中注明。
+2. 按 SKILL.md 第 1.5 步做搜索引擎兜底：运行 web-queries，用你的联网搜索逐条执行，把具体公告的链接写进 leads.json，再运行 add-leads。
 3. 按 SKILL.md 的口径逐条核实 open、review、change、intention 中的候选，写出 review.json。
-4. 运行 radar.py daily --leads <leads.json> --review <review.json>，只推送新增公告和截止提醒。
+4. 运行 daily --leads <leads.json> --review <review.json>，只推送新增公告和截止提醒。
 5. 最后用三行汇报：新增几条、提醒几条、覆盖缺口。不要向我提问，遇到无法确定的内容放进「待核实」。
 ```
 
@@ -89,15 +89,15 @@ export RADAR_SMTP_PASSWORD='你的授权码'
 ```bash
 crontab -e
 # 每天 08:00（服务器时区须为北京时间；否则换算，或在命令前加 TZ=Asia/Shanghai）
-0 8 * * * cd /path/to/anhui-legal-tender-radar && /usr/bin/python3 scripts/radar.py daily --quiet >> ~/.anhui-legal-radar/daily.log 2>&1
+0 8 * * * cd /path/to/anhui-legal-tender-radar && sh scripts/radar.sh daily --quiet >> ~/.anhui-legal-radar/daily.log 2>&1
 ```
 
-cron 不会读取 `~/.zshrc`，需要在 crontab 顶部写入环境变量，或改用 `bash -lc '...'` 执行。
+cron 不会读取 `~/.zshrc`，PATH 也很短：推送密钥等环境变量要写在 crontab 顶部；Homebrew 等装在 `/usr/local/bin`、`/opt/homebrew/bin` 的 Python 可能找不到，在 crontab 顶部加一行 `RADAR_PYTHON=/opt/homebrew/bin/python3`（按 `which python3` 的结果填写）即可。
 
 **Windows（任务计划程序）**
 
 ```powershell
-$action  = New-ScheduledTaskAction -Execute 'py' -Argument '-X utf8 scripts\radar.py daily --quiet' -WorkingDirectory "$env:USERPROFILE\skills\anhui-legal-tender-radar"
+$action  = New-ScheduledTaskAction -Execute "$env:USERPROFILE\skills\anhui-legal-tender-radar\scripts\radar.cmd" -Argument 'daily --quiet' -WorkingDirectory "$env:USERPROFILE\skills\anhui-legal-tender-radar"
 $trigger = New-ScheduledTaskTrigger -Daily -At 8:00
 Register-ScheduledTask -TaskName 'AnhuiLegalRadar' -Action $action -Trigger $trigger -Description '安徽省法律服务招标信息每日推送'
 ```
@@ -107,7 +107,7 @@ Register-ScheduledTask -TaskName 'AnhuiLegalRadar' -Action $action -Trigger $tri
 ### 先试运行
 
 ```bash
-python scripts/radar.py daily --dry-run --print   # 不推送、不写状态，只打印推送内容
+sh scripts/radar.sh daily --dry-run --print    # 不推送、不写状态，只打印推送内容（Windows：scripts\radar.cmd daily --dry-run --print）
 ```
 
 第一次正式运行时，近 30 天内所有符合条件的公告都会被当成「新增」推送一次，之后只推送变化。

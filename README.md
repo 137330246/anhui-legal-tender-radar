@@ -1,6 +1,6 @@
 # 安徽省法律服务招标信息收集和推送skill
 
-> **预览版 v0.9.0**：功能完整，但规则只经过少量真实数据检验，可能有误收或漏检。欢迎试用并反馈（见文末「反馈」）。已知问题见 [CHANGELOG.md](CHANGELOG.md)。官方接口最后验证可用：2026-11-15。
+> **预览版 v0.9.1**：功能完整，但规则只经过少量真实数据检验，可能有误收或漏检。欢迎试用并反馈（见文末「反馈」）。已知问题见 [CHANGELOG.md](CHANGELOG.md)。官方接口最后验证可用：2026-11-15。
 
 一个给律师和律所用的 AI Agent Skill：自动检索**安徽省**的法律服务招标、采购、比选、入库和破产管理人选任公告，逐条读正文核实后出报告，并可以每天定时推送到邮箱、企业微信、钉钉、飞书或微信。
 
@@ -17,17 +17,31 @@
 
 ## 快速开始
 
-需要 Python 3.9 及以上，不需要安装任何第三方依赖。
+需要 Python 3.9 及以上，不需要安装任何第三方依赖。用启动脚本运行，它会自动寻找可用的 Python：
 
 ```bash
-git clone <本仓库地址> anhui-legal-tender-radar
+git clone https://github.com/137330246/anhui-legal-tender-radar.git
 cd anhui-legal-tender-radar
-python scripts/radar.py check                        # 自检：各官方接口是否可用
-python scripts/radar.py collect --days 30 --depth quick
-python scripts/radar.py report --run <上一步输出的 run 文件>
+sh scripts/radar.sh check                            # macOS / Linux；Windows 用 scripts\radar.cmd check
+sh scripts/radar.sh collect --days 30 --depth quick
+sh scripts/radar.sh report --run <上一步输出的 run 文件>
 ```
 
-Windows 用户把 `python` 换成 `py`。报告和数据默认保存在 `~/.anhui-legal-radar/`。
+报告和数据默认保存在 `~/.anhui-legal-radar/`。
+
+### 没有 Python 怎么办
+
+先运行 `scripts\radar.cmd --version`（Windows）或 `sh scripts/radar.sh --version`（macOS / Linux）。输出版本号就说明可以用；提示 `PYTHON_NOT_FOUND` 就需要安装：
+
+| 系统 | 安装方法 |
+|---|---|
+| Windows | 在 PowerShell 运行 `winget install Python.Python.3.12`；或从 [python.org](https://www.python.org/downloads/) 下载，安装时勾选「Add python.exe to PATH」 |
+| macOS | 在终端运行 `xcode-select --install`；或从 [python.org](https://www.python.org/downloads/) 下载 |
+| Linux | `sudo apt install python3` 或 `sudo dnf install python3` |
+
+- 装好后重新打开终端或 Agent 即可。Python 已装在别处、但不在 PATH 中的，设置环境变量 `RADAR_PYTHON` 为它的完整路径。
+- **WorkBuddy（Windows 版）自带 Python 3.13**，启动脚本会自动找到，不用另装。
+- **实在不想装**：Agent 会改用「简易模式」，只靠自带的联网搜索和网页读取，不调用官方检索接口、不扫描法院官网，遗漏会明显增多，也不能自动推送。详见 [references/no-python.md](references/no-python.md)。
 
 ## 安装为 Skill
 
@@ -55,7 +69,7 @@ Windows 用户把 `python` 换成 `py`。报告和数据默认保存在 `~/.anhu
 | 方式 | 适用 | 是否消耗模型额度 | 准确度 |
 |---|---|---|---|
 | Agent 定时任务（Codex 自动化 / dsh 定时任务 / WorkBuddy 定时任务） | 希望每条都经 AI 读正文核实 | 是 | 高 |
-| 系统定时任务（cron / Windows 任务计划程序）运行 `radar.py daily` | 服务器、常开电脑，零成本 | 否 | 规则初筛，会标注「未经核实」 |
+| 系统定时任务（cron / Windows 任务计划程序）运行 `radar daily` | 服务器、常开电脑，零成本 | 否 | 规则初筛，会标注「未经核实」 |
 
 推送渠道：邮箱（SMTP）、企业微信群机器人、钉钉群机器人、飞书群机器人、Server酱（微信）、通用 Webhook。密钥只放在环境变量中。
 
@@ -93,6 +107,8 @@ Windows 用户把 `python` 换成 `py`。报告和数据默认保存在 `~/.anhu
 SKILL.md                    Agent 读取的流程与口径
 config.example.json         推送与定时配置模板
 references/                 来源说明、核实格式、推送与定时任务文档
+scripts/radar.cmd           启动脚本（Windows），自动寻找 Python
+scripts/radar.sh            启动脚本（macOS / Linux），自动寻找 Python
 scripts/radar.py            命令行入口
 scripts/sources.py          5 个官方检索接口与正文读取
 scripts/courts.py           125 家安徽法院官网扫描
@@ -113,7 +129,7 @@ tests/                      离线单元测试
 
 - **误收**：报告里出现了不是律师服务、不在安徽或已经截止的公告。
 - **漏检**：你知道的安徽法律服务招标没有出现在报告里（请注明在哪个网站发布）。
-- **来源失效**：`python scripts/radar.py check` 报错。
+- **来源失效**：`sh scripts/radar.sh check` 报错。
 - **新来源**：你知道稳定的安徽国企、银行、医院采购平台。
 
 ## 许可

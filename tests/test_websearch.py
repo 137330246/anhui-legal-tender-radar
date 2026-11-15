@@ -33,8 +33,11 @@ class Queries(unittest.TestCase):
         self.assertLessEqual(len(websearch.queries(START, END, 'quick')), 6)
 
     def test_cities_option(self):
-        qs = websearch.queries(START, END, 'standard', cities=['亳州'])
-        self.assertTrue(any(q['layer'] == '地市·亳州' for q in qs))
+        for depth in ('quick', 'standard', 'full'):
+            qs = websearch.queries(START, END, depth, cities=['亳州'])
+            self.assertTrue(any(q['layer'] == '地市·亳州' for q in qs), depth)
+        self.assertEqual(len([q for q in websearch.queries(START, END, 'quick', cities=['亳州'])
+                              if not q['layer'].startswith('地市')]), 6)
 
     def test_month_labels_cross_year(self):
         self.assertEqual(websearch.month_labels(date(2025, 12, 20), date(2026, 1, 5)), ['2026年1月', '2025年12月'])
@@ -139,6 +142,19 @@ class Rules(unittest.TestCase):
         self.assertEqual(radar.section_of(dict(base, source='web')), 'open')
         self.assertEqual(radar.section_of(dict(base, source='web', meta={'aggregator': True})), 'review')
         self.assertEqual(radar.section_of(dict(base, source='web', warnings=['来自搜索引擎线索', '正文未获取：x'])), 'review')
+
+
+class NoPythonDoc(unittest.TestCase):
+    """简易模式文档里的查询词须与代码一致，避免两边各改各的。"""
+
+    def test_queries_in_sync(self):
+        doc = (Path(__file__).resolve().parent.parent / 'references' / 'no-python.md').read_text(encoding='utf-8')
+        for layer, templates in websearch.LAYERS.items():
+            self.assertIn(f'{layer}：', doc)
+            for t in templates:
+                self.assertIn(f"`{t.replace('{m}', '{月份}')}`", doc)
+        for t in websearch.CITY_TEMPLATES:
+            self.assertIn(f"`{t.replace('{city}', '{城市}').replace('{m}', '{月份}')}`", doc)
 
 
 class Gzip(unittest.TestCase):

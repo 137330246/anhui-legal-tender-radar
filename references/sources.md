@@ -49,7 +49,7 @@
 
 ## 维护
 
-- `python scripts/radar.py check` 检查五个接口；加 `--courts` 抽查 5 家法院官网。
+- `sh scripts/radar.sh check` 检查五个接口；加 `--courts` 抽查 5 家法院官网。
 - 法院站点清单：`scripts/data/court-sites.json`；迁移地址、停用站点与关键词：`court-site-rules.json`；栏目扫描例外：`court-directory-rules.json`。
 - 安徽市县地名（用于地域判断）：`scripts/data/anhui-places.json`。
 - 欢迎提交 PR 补充新的稳定来源（如安徽各地市国企采购平台、银行采购栏目），请附上公开接口的实测记录。
