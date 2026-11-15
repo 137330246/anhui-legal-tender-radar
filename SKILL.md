@@ -43,19 +43,26 @@ metadata:
 
 ## 工作流程
 
-脚本目录记为 `<skill>/scripts`。下文的 `radar` 指启动脚本，它会自动寻找 Python 3.9+（包括 WorkBuddy 自带的 Python）再运行 `radar.py`：
-
-- Windows：`<skill>\scripts\radar.cmd`
-- macOS / Linux：`sh <skill>/scripts/radar.sh`
-
-所有输出默认写到 `~/.anhui-legal-radar/`（可用环境变量 `RADAR_HOME` 修改）。
+脚本目录记为 `<skill>/scripts`。下文的 `radar` 指运行 `radar.py` 的命令，第 0 步确定它具体是什么。所有输出默认写到 `~/.anhui-legal-radar/`（可用环境变量 `RADAR_HOME` 修改）。
 
 ### 0. 检查运行环境
 
-先运行 `radar --version`：
+**确定 `radar` 命令**：
+
+- 如果 `<skill>/scripts/` 里有启动脚本（从 GitHub 获取的版本有），直接用它，它会自动寻找 Python 3.9+：
+  - Windows：`radar` = `<skill>\scripts\radar.cmd`
+  - macOS / Linux：`radar` = `sh <skill>/scripts/radar.sh`
+- 如果没有启动脚本（例如从 SkillHub 安装，平台不允许上传脚本文件），按下面的顺序自己找。对每个候选运行 `<候选> -c "import sys; print(sys.version_info >= (3, 9))"`，第一个输出 `True` 的就是可用的 Python，记为 `<python>`，此后 `radar` = `<python> -X utf8 <skill>/scripts/radar.py`：
+  1. 环境变量 `RADAR_PYTHON` 指向的程序
+  2. `py`（仅 Windows）、`python3`、`python`
+  3. WorkBuddy 自带的 Python：Windows 为 `%LOCALAPPDATA%\Programs\WorkBuddy\resources\vendor\python\python.exe`；macOS 为 `/Applications/WorkBuddy.app/Contents/Resources/vendor/python/bin/python3`（未经确认）
+  - 注意：Windows 上未安装 Python 时，`python` 可能是应用商店的占位程序，运行后只打印提示或打开商店，这种不算找到。macOS 上未安装开发者工具时运行 `python3` 可能弹出安装对话框，同样不算。
+  - 全部失败视为「找不到 Python」，处理方式与启动脚本输出 `PYTHON_NOT_FOUND` 相同。
+
+然后运行 `radar --version`：
 
 - **输出版本号**：环境正常，进入第 1 步。
-- **输出 `PYTHON_NOT_FOUND`（退出码 127）**：本机没有可用的 Python。把启动脚本打印的安装方法转告用户，问用户：现在安装，还是先用简易模式？
+- **输出 `PYTHON_NOT_FOUND`（退出码 127），或上面的候选全部失败**：本机没有可用的 Python。把安装方法告诉用户（启动脚本会打印；没有启动脚本时，按 README「没有 Python 怎么办」一节转告：Windows 运行 `winget install Python.Python.3.12`，macOS 运行 `xcode-select --install`，或从 python.org 下载），问用户：现在安装，还是先用简易模式？
   - 用户安装后，再运行一次 `radar --version` 确认，然后进入第 1 步。
   - 用户选择不安装，或者当前 Agent 根本不能执行命令：按 [references/no-python.md](references/no-python.md) 的**简易模式**执行，下面第 1–4 步都不适用。简易模式只能用联网搜索，遗漏会明显增多，也不能自动推送，开始前要先告诉用户。
 - 定时任务等无人值守的场景不要提问：找不到 Python 就直接走简易模式，并在报告开头注明。
