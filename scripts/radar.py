@@ -31,7 +31,7 @@ import sources  # noqa: E402
 import websearch  # noqa: E402
 from extract import BEIJING  # noqa: E402
 
-VERSION = '0.9.1'
+VERSION = '0.9.2'
 SKILL_DIR = Path(__file__).resolve().parent.parent
 
 DEFAULT_KEYWORDS = {
@@ -71,8 +71,7 @@ def source_label(c):
     return name
 
 
-def home():
-    return Path(os.environ.get('RADAR_HOME') or Path.home() / '.anhui-legal-radar')
+from paths import home  # noqa: E402
 
 
 def load_config(path=None):
@@ -786,6 +785,8 @@ def cmd_push(args):
 
 def cmd_daily(args):
     import notify
+    if getattr(args, 'home', None):
+        os.environ['RADAR_HOME'] = args.home
     conf = load_config(args.config)
     daily = conf.get('daily') or {}
     start, end = window(args.days or daily.get('days', 30))
@@ -900,8 +901,12 @@ def main(argv=None):
     s.add_argument('--dry-run', action='store_true', help='不推送、不写状态')
     s.add_argument('--print', action='store_true', help='打印推送摘要')
     s.add_argument('--quiet', action='store_true')
+    s.add_argument('--home', help='数据目录（系统定时任务使用，等同于环境变量 RADAR_HOME）')
     common(s)
     s.set_defaults(fn=cmd_daily)
+
+    import onboard
+    onboard.register(sub)
 
     args = p.parse_args(argv)
     return args.fn(args) or 0

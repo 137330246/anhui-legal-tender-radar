@@ -117,10 +117,11 @@ def _http_json(url, payload=None, headers=None, timeout=25):
 
 
 def _key(conf):
-    env = conf.get('api_key_env')
-    key = os.environ.get(env) if env else conf.get('api_key')
+    from paths import get_secret
+    name = conf.get('api_key_env')
+    key = get_secret(name) if name else conf.get('api_key')
     if not key:
-        raise SearchError(f'未设置搜索 API Key（环境变量 {env or "api_key_env"}）')
+        raise SearchError(f'未设置搜索 API Key（用 radar secret set {name or "<名称>"} 录入，或设置同名环境变量）')
     return key
 
 

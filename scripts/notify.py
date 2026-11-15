@@ -22,12 +22,13 @@ class PushError(Exception):
 
 
 def _secret(conf, key):
-    """conf[key+'_env'] 指向环境变量；为了方便本地试用也接受明文 conf[key]（会提示）。"""
-    env = conf.get(key + '_env')
-    if env:
-        value = os.environ.get(env)
+    """conf[key+'_env'] 是密钥名称：先读同名环境变量，再读本机 secrets.json。也接受明文 conf[key]。"""
+    from paths import get_secret
+    name = conf.get(key + '_env')
+    if name:
+        value = get_secret(name)
         if not value:
-            raise PushError(f'环境变量 {env} 未设置')
+            raise PushError(f'密钥 {name} 未设置（用 radar secret set {name} 录入，或设置同名环境变量）')
         return value
     return conf.get(key)
 

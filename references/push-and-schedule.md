@@ -2,12 +2,23 @@
 
 ## 一、配置推送渠道
 
-1. 复制 `config.example.json` 到 `~/.anhui-legal-radar/config.json`（Windows：`%USERPROFILE%\.anhui-legal-radar\config.json`）。
-2. 把要用的渠道改为 `"enabled": true`。
-3. 把密钥写进**环境变量**，配置文件里只写变量名（`*_env` 字段）。不要把密钥提交到 Git，也不要发给 AI。
-4. 测试：`sh scripts/radar.sh push --report <任一报告.md>`（Windows：`scripts\radar.cmd push --report <任一报告.md>`）。
+**最简单的方式**：直接对 Agent 说「设置推送到钉钉群」，Agent 会按 [onboarding.md](onboarding.md) 一步步带你配好。第一次使用时 Agent 也会主动问。
 
-| 渠道 | `type` | 需要的环境变量 | 获取方式 |
+手动配置（下面的 `radar` 在 Windows 上是 `scripts\radar.cmd`，在 macOS / Linux 上是 `sh scripts/radar.sh`）：
+
+```bash
+radar channel add --type dingtalk --with-sign      # 添加渠道，输出里会列出需要录入的密钥名称
+radar secret set RADAR_DINGTALK_WEBHOOK            # 在自己的终端运行，粘贴密钥，输入内容不会显示
+radar secret set RADAR_DINGTALK_SECRET
+radar channel test                                 # 发一条测试消息
+radar status                                       # 查看所有渠道是否就绪
+```
+
+- 密钥保存在本机 `~/.anhui-legal-radar/secrets.json`（仅当前用户可读），`config.json` 只记密钥名称。也可以改用同名的环境变量，环境变量优先。
+- 不要把 `secrets.json` 提交到 Git 或发给别人。
+- 其他命令：`radar channel list`、`radar channel remove --name 渠道名`、`radar secret list`（只显示是否已录入，不显示内容）、`radar secret delete 名称`。
+
+| 渠道 | `type` | 需要的密钥 | 获取方式 |
 |---|---|---|---|
 | 邮箱 | `email` | `smtp_password_env` 指向 SMTP 授权码 | QQ 邮箱：设置 → 账户 → 开启 SMTP 服务，生成授权码；端口 465 |
 | 企业微信群机器人 | `wecom` | `webhook_env` | 群设置 → 群机器人 → 添加，复制 Webhook 地址 |
@@ -16,17 +27,7 @@
 | 微信（Server酱） | `serverchan` | `sendkey_env` | sct.ftqq.com 微信扫码登录获取 SendKey |
 | 通用 Webhook | `webhook` | `url_env` | 收到 `{"title","markdown","report_name"}` 的 JSON POST |
 
-设置环境变量：
-
-```bash
-# macOS / Linux：写入 ~/.zshrc 或 ~/.bashrc
-export RADAR_SMTP_PASSWORD='你的授权码'
-```
-
-```powershell
-# Windows：写入用户环境变量，新开终端后生效
-[Environment]::SetEnvironmentVariable('RADAR_SMTP_PASSWORD', '你的授权码', 'User')
-```
+邮箱渠道：`radar channel add --type email --provider qq --smtp-user 发件邮箱 --to 收件邮箱`，`--provider` 可选 qq、163、126、aliyun、exmail、outlook、gmail，其他邮箱用 `--smtp-host`、`--smtp-port` 指定。
 
 各平台的消息长度有限，推送内容是「新增 + 截止提醒」摘要；完整报告保存在本地，邮件会附上完整报告。
 
@@ -83,6 +84,18 @@ export RADAR_SMTP_PASSWORD='你的授权码'
 ### 方式 B：系统定时任务（不调用模型，零成本）
 
 结果是规则初筛，报告和推送会标注「未经逐条核实」。适合放在服务器或常开电脑上。
+
+**一键安装（推荐）**：
+
+```bash
+radar schedule install --time 08:00              # 每天 8:00；只在工作日加 --weekdays
+radar schedule status                            # 查看是否已安装、下次运行时间
+radar schedule remove                            # 删除
+```
+
+Windows 上创建任务计划程序中名为 `AnhuiLegalRadar` 的任务，macOS / Linux 上在 crontab 中添加一行（不影响已有的其他定时任务）。任务直接调用安装时所用的 Python，密钥从本机 `secrets.json` 读取，不依赖终端环境变量。时间按电脑本地时区，不是北京时间时命令会提示。
+
+也可以手动设置：
 
 **macOS / Linux（cron）**
 

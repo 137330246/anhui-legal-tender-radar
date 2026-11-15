@@ -1,4 +1,5 @@
 {
+  "_说明": "通常不需要手动编辑本文件：第一次使用时 Agent 会询问并自动生成 ~/.anhui-legal-radar/config.json；也可用 radar channel add 添加渠道。*_env 字段是密钥名称，密钥本身用 radar secret set <名称> 录入，或设置同名环境变量。",
   "daily": {
     "days": 30,
     "depth": "standard",
@@ -14,34 +15,34 @@
   },
   "channels": [
     {
+      "type": "dingtalk",
+      "name": "钉钉群机器人",
+      "enabled": false,
+      "webhook_env": "RADAR_DINGTALK_WEBHOOK",
+      "secret_env": "RADAR_DINGTALK_SECRET"
+    },
+    {
+      "type": "wecom",
+      "name": "企业微信群机器人",
+      "enabled": false,
+      "webhook_env": "RADAR_WECOM_WEBHOOK"
+    },
+    {
+      "type": "feishu",
+      "name": "飞书群机器人",
+      "enabled": false,
+      "webhook_env": "RADAR_FEISHU_WEBHOOK",
+      "secret_env": "RADAR_FEISHU_SECRET"
+    },
+    {
       "type": "email",
-      "name": "我的邮箱",
+      "name": "邮箱",
       "enabled": false,
       "smtp_host": "smtp.qq.com",
       "smtp_port": 465,
       "smtp_user": "your_account@qq.com",
       "smtp_password_env": "RADAR_SMTP_PASSWORD",
       "to": ["your_account@qq.com"]
-    },
-    {
-      "type": "wecom",
-      "name": "企业微信群",
-      "enabled": false,
-      "webhook_env": "RADAR_WECOM_WEBHOOK"
-    },
-    {
-      "type": "dingtalk",
-      "name": "钉钉群",
-      "enabled": false,
-      "webhook_env": "RADAR_DINGTALK_WEBHOOK",
-      "secret_env": "RADAR_DINGTALK_SECRET"
-    },
-    {
-      "type": "feishu",
-      "name": "飞书群",
-      "enabled": false,
-      "webhook_env": "RADAR_FEISHU_WEBHOOK",
-      "secret_env": "RADAR_FEISHU_SECRET"
     },
     {
       "type": "serverchan",

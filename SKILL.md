@@ -6,8 +6,8 @@ summary: 收集安徽省律师可投的法律服务招标、采购、比选、�
 tags: [法律服务, 招标, 安徽, 律师, 律所, 破产管理人, 政府采购, 定时推送]
 homepage: https://github.com/137330246/anhui-legal-tender-radar
 author: 何杨律师
-version: 0.9.1
-description: 检索、核实并推送安徽省法律服务招标信息（常年法律顾问、诉讼仲裁代理、专项非诉、知识产权、律师库入库、破产管理人选任等），覆盖安徽省政府采购网、安徽省公共资源交易平台、合肥公共资源交易中心、安徽省招标投标信息网、全国企业破产重整案件信息网及 125 家安徽法院官网，并以搜索引擎兜底补充国企、金融机构、央企在皖单位、医院高校等自有采购渠道，输出可报名 / 待核实 / 采购意向 / 更正取消分组报告，并可推送到邮箱、企业微信、钉钉、飞书或微信（Server酱）。Use when the user asks to search, monitor, summarize or push Anhui (安徽 / 皖) legal-service tenders, e.g. "安徽最近有哪些法律顾问招标", "查一下近一个月安徽的法律服务采购", "安徽破产管理人选任公告", "每天早上把安徽律所能投的标推给我", "安徽法律服务招标信息收集", "运行安徽招标雷达".
+version: 0.9.2
+description: 检索、核实并推送安徽省法律服务招标信息（常年法律顾问、诉讼仲裁代理、专项非诉、知识产权、律师库入库、破产管理人选任等），覆盖安徽省政府采购网、安徽省公共资源交易平台、合肥公共资源交易中心、安徽省招标投标信息网、全国企业破产重整案件信息网及 125 家安徽法院官网，并以搜索引擎兜底补充国企、金融机构、央企在皖单位、医院高校等自有采购渠道，输出可报名 / 待核实 / 采购意向 / 更正取消分组报告，并可推送到邮箱、企业微信、钉钉、飞书或微信（Server酱）。Use when the user asks to search, monitor, summarize or push Anhui (安徽 / 皖) legal-service tenders, e.g. "安徽最近有哪些法律顾问招标", "查一下近一个月安徽的法律服务采购", "安徽破产管理人选任公告", "每天早上把安徽律所能投的标推给我", "设置安徽招标推送到钉钉", "修改安徽招标推送设置", "安徽法律服务招标信息收集", "运行安徽招标雷达".
 license: MIT
 metadata:
   requires: python>=3.9（仅标准库，无需 pip 安装；没有 Python 时可用简易模式）
@@ -62,10 +62,19 @@ metadata:
 然后运行 `radar --version`：
 
 - **输出版本号**：环境正常，进入第 1 步。
-- **输出 `PYTHON_NOT_FOUND`（退出码 127），或上面的候选全部失败**：本机没有可用的 Python。把安装方法告诉用户（启动脚本会打印；没有启动脚本时，按 README「没有 Python 怎么办」一节转告：Windows 运行 `winget install Python.Python.3.12`，macOS 运行 `xcode-select --install`，或从 python.org 下载），问用户：现在安装，还是先用简易模式？
+- **输出 `PYTHON_NOT_FOUND`（退出码 127），或上面的候选全部失败**：本机没有可用的 Python。把安装方法告诉用户（启动脚本会打印；没有启动脚本时，按 README「没有 Python 怎么办」一节转告：Windows 运行 `winget install Python.Python.3.12`，macOS 运行 `xcode-select --install`，或从 python.org 下载），问用户：现在安装，还是先用简易模式？这是用户第一次使用时，把这个问题和第 0.5 步的引导问题合并成一条消息一起问，不要分两次。
   - 用户安装后，再运行一次 `radar --version` 确认，然后进入第 1 步。
   - 用户选择不安装，或者当前 Agent 根本不能执行命令：按 [references/no-python.md](references/no-python.md) 的**简易模式**执行，下面第 1–4 步都不适用。简易模式只能用联网搜索，遗漏会明显增多，也不能自动推送，开始前要先告诉用户。
 - 定时任务等无人值守的场景不要提问：找不到 Python 就直接走简易模式，并在报告开头注明。
+
+### 0.5 首次使用引导
+
+Python 可用时运行 `radar status`。输出 `"onboarded": false` 说明用户是第一次用：**在检索之前**按 [references/onboarding.md](references/onboarding.md) 主动询问——要不要推送、推到钉钉 / 企业微信 / 飞书 / 邮箱 / 微信中的哪个、要不要每天定时检索，然后帮用户配好、发测试消息，并用 `radar onboard done` 记录。问题合并成一条消息，每题给默认选项，用户回复「默认」或「跳过」也能继续。
+
+- 已经完成引导（`"onboarded": true`）时不要再问。用户说「改一下推送」「换个时间」「重新设置」时，只重新引导相关部分。
+- `status` 中 `push_ready` 为 false 但用户之前选了推送（例如密钥丢失），提醒用户补录。
+- 定时任务等无人值守的运行跳过引导。
+- 简易模式下的引导范围更小，见 onboarding.md 文末。
 
 ### 1. 采集
 
@@ -147,7 +156,9 @@ radar report --run <run.json> --review <review.json>
 radar push --report <report.md> [--channel email]
 ```
 
-推送渠道在 `~/.anhui-legal-radar/config.json` 中配置（模板见 `config.example.json`，说明见 [references/push-and-schedule.md](references/push-and-schedule.md)）。密钥只放在环境变量中，**不要把 Webhook 地址、授权码、SendKey 写进对话或报告**。推送结果中的「已提交」不等于对方已收到。
+推送渠道用 `radar channel add` 添加、`radar secret set` 录入密钥、`radar channel test` 测试，步骤见 [references/onboarding.md](references/onboarding.md)；用 `radar channel list` 查看已配置的渠道，`radar channel remove --name 渠道名` 删除。密钥存在本机的 `secrets.json` 或同名环境变量里，`config.json` 只记名称。**不要复述用户的 Webhook 地址、授权码、SendKey，也不要写进报告**。推送结果中的「已提交」不等于对方已收到。
+
+用户在引导中选了「手动查询后也推送」，或这次明确要求推送时才推送；否则只给报告。
 
 ## 定时任务
 
@@ -179,3 +190,4 @@ radar daily --leads <leads.json> --review <review.json>
 - [references/web-search.md](references/web-search.md)：搜索引擎兜底的查询分层、后端配置（SearXNG / 博查 / Tavily）与线索处理规则。
 - [references/push-and-schedule.md](references/push-and-schedule.md)：推送渠道配置，以及 Codex、DeepSeek Harness、WorkBuddy 和系统定时任务的接入方法。
 - [references/no-python.md](references/no-python.md)：没有 Python 时的简易模式（只用联网搜索与网页读取）。
+- [references/onboarding.md](references/onboarding.md)：首次使用引导——询问推送与定时偏好、配置渠道与密钥、安装定时任务。

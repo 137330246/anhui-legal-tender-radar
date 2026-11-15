@@ -1,6 +1,6 @@
 # 安徽省法律服务招标信息收集和推送skill
 
-> **预览版 v0.9.1**：功能完整，但规则只经过少量真实数据检验，可能有误收或漏检。欢迎试用并反馈（见文末「反馈」）。已知问题见 [CHANGELOG.md](CHANGELOG.md)。官方接口最后验证可用：2026-11-15。
+> **预览版 v0.9.2**：功能完整，但规则只经过少量真实数据检验，可能有误收或漏检。欢迎试用并反馈（见文末「反馈」）。已知问题见 [CHANGELOG.md](CHANGELOG.md)。官方接口最后验证可用：2026-11-15。
 
 一个给律师和律所用的 AI Agent Skill：自动检索**安徽省**的法律服务招标、采购、比选、入库和破产管理人选任公告，逐条读正文核实后出报告，并可以每天定时推送到邮箱、企业微信、钉钉、飞书或微信。
 
@@ -54,7 +54,8 @@ sh scripts/radar.sh report --run <上一步输出的 run 文件>
 | DeepSeek Harness | `~/.dsh/skills/` 或项目内 `.dsh/skills/` |
 | WorkBuddy | `~/.workbuddy/skills/` |
 
-也可以用 SkillHub 安装：`skillhub install anhui-legal-tender-radar --dir <上表中的目录>`。SkillHub 不允许上传 Windows 批处理文件，所以从 SkillHub 安装的版本**没有** `radar.cmd`（`radar.sh` 仍然有）。Windows 上 Agent 会按 SKILL.md 自己寻找 Python，使用上没有区别；要在命令行手动运行，请从 GitHub 获取完整版本，或直接用 `py scriptsadar.py`。
+也可以用 SkillHub 安装：`skillhub install anhui-legal-tender-radar --dir <上表中的目录>`。SkillHub 不允许上传 Windows 批处理文件，所以从 SkillHub 安装的版本**没有** `radar.cmd`（`radar.sh` 仍然有）。Windows 上 Agent 会按 SKILL.md 自己寻找 Python，使用上没有区别；要在命令行手动运行，请从 GitHub 获取完整版本，或直接用 `py scripts
+adar.py`。
 
 然后直接对 Agent 说：
 
@@ -63,6 +64,16 @@ sh scripts/radar.sh report --run <上一步输出的 run 文件>
 > 安徽最近有没有破产管理人选任公告
 
 > 每天早上 8 点把安徽新出的法律服务招标推送到我的钉钉群
+
+## 首次使用
+
+第一次使用时，Agent 会先问你几个问题（每题都有默认选项，回复「默认」也行），然后帮你配好：
+
+- 电脑上没有 Python 时：现在安装，还是先用简易模式？
+- 新公告要不要推送？推到钉钉群、企业微信群、飞书群、邮箱还是微信？
+- 要不要每天自动检索？几点？由 Agent 定时运行，还是由电脑系统定时运行？
+
+选了推送，Agent 会告诉你去哪里复制机器人地址，录入后发一条测试消息确认。选了系统定时，会直接帮你装好定时任务。之后想改，跟 Agent 说「改一下推送」「不要定时了」即可。
 
 ## 定时推送
 
@@ -73,7 +84,7 @@ sh scripts/radar.sh report --run <上一步输出的 run 文件>
 | Agent 定时任务（Codex 自动化 / dsh 定时任务 / WorkBuddy 定时任务） | 希望每条都经 AI 读正文核实 | 是 | 高 |
 | 系统定时任务（cron / Windows 任务计划程序）运行 `radar daily` | 服务器、常开电脑，零成本 | 否 | 规则初筛，会标注「未经核实」 |
 
-推送渠道：邮箱（SMTP）、企业微信群机器人、钉钉群机器人、飞书群机器人、Server酱（微信）、通用 Webhook。密钥只放在环境变量中。
+推送渠道：邮箱（SMTP）、企业微信群机器人、钉钉群机器人、飞书群机器人、Server酱（微信）、通用 Webhook。密钥只保存在本机（`secrets.json` 或环境变量），配置文件里只记名称。系统定时任务可用 `radar schedule install --time 08:00` 一键安装。
 
 ## 命令一览
 
@@ -88,6 +99,11 @@ sh scripts/radar.sh report --run <上一步输出的 run 文件>
 | `web-queries [--depth full] [--cities 合肥,芜湖]` | 输出搜索兜底的查询词（供 Agent 用自带搜索执行） |
 | `add-leads --run <run> --leads <leads.json>` | 把搜到的线索交回脚本：读原文、套规则、去重后并入 |
 | `daily [--leads <leads.json>] [--review <review.json>] [--dry-run --print]` | 定时任务一条龙：只推送新增与截止提醒 |
+| `status` | 查看配置状态：是否完成首次引导、推送渠道与密钥是否就绪、系统定时任务 |
+| `onboard done / reset` | 记录或重置首次引导的选择 |
+| `channel add / list / remove / test` | 管理推送渠道并发送测试消息 |
+| `secret set / list / delete` | 在本机录入推送或搜索的密钥（不显示内容） |
+| `schedule install / remove / status [--time 08:00] [--weekdays]` | 安装或删除系统定时任务（Windows 任务计划程序 / cron） |
 
 ## 局限
 
@@ -117,6 +133,8 @@ scripts/courts.py           125 家安徽法院官网扫描
 scripts/extract.py          公告类型、法律服务、安徽关联、截止时间等规则
 scripts/websearch.py        搜索引擎兜底：查询分层与 SearXNG / 博查 / Tavily 后端
 scripts/notify.py           推送渠道
+scripts/onboard.py          首次引导、推送渠道、密钥与系统定时任务
+scripts/paths.py            数据目录与本机密钥
 scripts/data/               法院站点清单、安徽地名
 tests/                      离线单元测试
 ```
