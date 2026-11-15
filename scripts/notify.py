@@ -60,7 +60,7 @@ def send_email(conf, title, markdown, attachment=None):
     to = conf['to'] if isinstance(conf['to'], list) else [conf['to']]
     msg = EmailMessage()
     msg['Subject'] = title
-    msg['From'] = formataddr((conf.get('from_name', '安徽法律服务招标雷达'), conf.get('from', user)))
+    msg['From'] = formataddr((conf.get('from_name', '安徽省法律服务招标信息'), conf.get('from', user)))
     msg['To'] = ', '.join(to)
     msg.set_content(markdown)
     if attachment:

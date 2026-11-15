@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""安徽法律服务招标雷达 · 命令行。仅依赖 Python 3.9+ 标准库。
+"""安徽省法律服务招标信息收集和推送skill · 命令行。仅依赖 Python 3.9+ 标准库。
 
 常用：
   python radar.py check                         # 自检：各官方接口是否可用
@@ -472,7 +472,7 @@ def _line(c, new_ids=None, show_status=False):
     return '\n'.join(rows)
 
 
-def render_report(run, new_ids=None, title='安徽法律服务招标雷达'):
+def render_report(run, new_ids=None, title='安徽省法律服务招标信息'):
     cs = run['candidates']
     sec = {k: [c for c in cs if c['section'] == k] for k in ('open', 'review', 'intention', 'change', 'closed')}
     sec['open'].sort(key=lambda c: (c['fields']['deadline'] or {}).get('value', '9'))
@@ -530,7 +530,7 @@ def render_report(run, new_ids=None, title='安徽法律服务招标雷达'):
                 out.append('- 提示：安徽法院网站群对频繁访问会暂时拒绝（HTTP 455）。建议每天只扫描一次，稍后再试。')
     out += ['', '---', '',
             '本报告仅检索公开网页正文，不读取 PDF/Word 附件；不保证全网无遗漏，报名资格与截止时间请以原公告为准。', '',
-            f'*安徽法律服务招标雷达 v{VERSION} · 开源 MIT · 何杨律师*']
+            f'*安徽省法律服务招标信息收集和推送skill v{VERSION} · 开源 MIT · 何杨律师*']
     return '\n'.join(out)
 
 
@@ -765,7 +765,7 @@ def cmd_report(args):
     if args.review:
         apply_review(run, json.loads(Path(args.review).read_text(encoding='utf-8')))
     text = render_report(run)
-    out = Path(args.out) if args.out else home() / 'reports' / f"安徽法律招标雷达_{run['window']['end'].replace('-', '')}_{now_bj().strftime('%H%M')}.md"
+    out = Path(args.out) if args.out else home() / 'reports' / f"安徽省法律服务招标信息_{run['window']['end'].replace('-', '')}_{now_bj().strftime('%H%M')}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(text, encoding='utf-8')
     print(str(out))
@@ -801,11 +801,11 @@ def cmd_daily(args):
     stamp = now_bj().strftime('%Y%m%d-%H%M%S')
     _save({k: v for k, v in run.items()}, 'runs', f'run-{stamp}.json')
     report = render_report(run, set(new_ids))
-    rpath = _save(report, 'reports', f"安徽法律招标雷达_{stamp}.md")
+    rpath = _save(report, 'reports', f"安徽省法律服务招标信息_{stamp}.md")
     should = bool(new_ids or reminders) or args.always or daily.get('push_when_empty', False)
     results = []
     if should and not args.dry_run:
-        title = f"安徽法律招标雷达｜新增{len(new_ids)}条" + (f"·提醒{len(reminders)}条" if reminders else '') + f"｜{end}"
+        title = f"安徽省法律服务招标信息｜新增{len(new_ids)}条" + (f"·提醒{len(reminders)}条" if reminders else '') + f"｜{end}"
         digest = render_digest(run, new_ids, reminders, str(rpath))
         results = notify.push_all(conf.get('channels') or [], title, digest, (rpath.name, report))
     pushed = any(r['ok'] for r in results)
@@ -821,7 +821,7 @@ def cmd_daily(args):
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(prog='radar.py', description='安徽法律服务招标雷达')
+    p = argparse.ArgumentParser(prog='radar.py', description='安徽省法律服务招标信息收集和推送skill')
     p.add_argument('--version', action='version', version=VERSION)
     sub = p.add_subparsers(dest='cmd', required=True)
 

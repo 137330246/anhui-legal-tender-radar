@@ -99,7 +99,7 @@ cron 不会读取 `~/.zshrc`，需要在 crontab 顶部写入环境变量，或�
 ```powershell
 $action  = New-ScheduledTaskAction -Execute 'py' -Argument '-X utf8 scripts\radar.py daily --quiet' -WorkingDirectory "$env:USERPROFILE\skills\anhui-legal-tender-radar"
 $trigger = New-ScheduledTaskTrigger -Daily -At 8:00
-Register-ScheduledTask -TaskName 'AnhuiLegalRadar' -Action $action -Trigger $trigger -Description '安徽法律服务招标雷达每日推送'
+Register-ScheduledTask -TaskName 'AnhuiLegalRadar' -Action $action -Trigger $trigger -Description '安徽省法律服务招标信息每日推送'
 ```
 
 任务以当前用户运行，可以读取用户环境变量。
