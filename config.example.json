@@ -1,0 +1,59 @@
+{
+  "daily": {
+    "days": 30,
+    "depth": "standard",
+    "court_limit": 600,
+    "push_when_empty": false
+  },
+  "keywords": {},
+  "web_search": {
+    "backend": "bocha",
+    "enabled": false,
+    "api_key_env": "BOCHA_API_KEY",
+    "max_leads": 60
+  },
+  "channels": [
+    {
+      "type": "email",
+      "name": "我的邮箱",
+      "enabled": false,
+      "smtp_host": "smtp.qq.com",
+      "smtp_port": 465,
+      "smtp_user": "your_account@qq.com",
+      "smtp_password_env": "RADAR_SMTP_PASSWORD",
+      "to": ["your_account@qq.com"]
+    },
+    {
+      "type": "wecom",
+      "name": "企业微信群",
+      "enabled": false,
+      "webhook_env": "RADAR_WECOM_WEBHOOK"
+    },
+    {
+      "type": "dingtalk",
+      "name": "钉钉群",
+      "enabled": false,
+      "webhook_env": "RADAR_DINGTALK_WEBHOOK",
+      "secret_env": "RADAR_DINGTALK_SECRET"
+    },
+    {
+      "type": "feishu",
+      "name": "飞书群",
+      "enabled": false,
+      "webhook_env": "RADAR_FEISHU_WEBHOOK",
+      "secret_env": "RADAR_FEISHU_SECRET"
+    },
+    {
+      "type": "serverchan",
+      "name": "微信（Server酱）",
+      "enabled": false,
+      "sendkey_env": "RADAR_SERVERCHAN_KEY"
+    },
+    {
+      "type": "webhook",
+      "name": "自定义 Webhook",
+      "enabled": false,
+      "url_env": "RADAR_CUSTOM_WEBHOOK"
+    }
+  ]
+}

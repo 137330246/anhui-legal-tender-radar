@@ -1,0 +1,19 @@
+{
+  "reviewer": "Claude（按 SKILL.md 口径逐条读取正文核实）",
+  "items": {
+    "a481a33b6a44": {"verdict": "include", "deadline": "2026-11-17T14:30:00+08:00",
+      "deadline_quote": "4.1询比时间：2026-11-17 14:30 …… 5.响应文件提交截止时间 同询比时间",
+      "categories": ["诉讼与仲裁", "常年法律顾问"], "note": "第三次询比（前两次未成交）；服务含代理诉讼、仲裁及已投项目退出法律服务"},
+    "256e792dab9c": {"verdict": "exclude", "note": "二次询比，已被三次询比取代"},
+    "6b2a1824ba88": {"verdict": "exclude", "note": "二次询比，已被三次询比取代"},
+    "29c9ad3ae7b4": {"verdict": "exclude", "note": "首次询比，已被三次询比取代"},
+    "a22f6f35e701": {"verdict": "exclude", "note": "首次询比，已被三次询比取代"},
+    "c8fd258f3e33": {"verdict": "exclude", "note": "2026-11-13 已发布异常（终止）公告"},
+    "fa712b49df59": {"verdict": "exclude", "note": "直接采购公示，已拟定律所，非公开竞争机会"},
+    "0409540ed530": {"verdict": "include", "note": "首次招标因投标人不足三家终止（终止公告针对首次），本条为二次招标"},
+    "04de2b13c46d": {"verdict": "include", "note": "原项目终止后重新采购"},
+    "82eff993fd26": {"verdict": "include", "budget": "最高限价：基本代理费3600元/件，风险代理费6.3%", "note": "拟选聘2家律所，担保追偿权纠纷案件代理"},
+    "6c2386cb8ac7": {"verdict": "include", "budget": "12万元"},
+    "c5a1487b80b8": {"verdict": "review", "note": "法院站点返回 HTTP 455，正文未读取；链接路径显示 2026/09，可能早于检索范围，请点开原文核对"}
+  }
+}

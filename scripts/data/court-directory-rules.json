@@ -1,0 +1,89 @@
+{
+  "sites": {
+    "dtxfy.ahcourt.gov.cn": {
+      "scope": "仅已配置并真实核实的栏目及其子栏目",
+      "columns": [
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNCAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMSAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMyAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNyAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjCwNCAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjBINCAOAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAAIqIAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMTAwNCACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwBCPCAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNDAwMiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNDAwNiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNDAwMSACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNDAwNSACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNDAwMyACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNzAwNiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjBINDAwNSACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwNzAwMiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjBINDAwNiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMTAwMiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMzAwNiACAAA.shtml",
+        "http://dtxfy.ahcourt.gov.cn/article/index/id/MyhOMjAwMTAwNiACAAA.shtml"
+      ]
+    },
+    "fyydfy.ahcourt.gov.cn": {
+      "scope": "仅已配置并真实核实的栏目及其子栏目",
+      "columns": [
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwMSAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwNSAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwMyAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjDINSAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjCwNCAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBINCAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBIMiAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBINSAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBINyAOAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBINTAwMSACAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwNTAwMiACAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwNTAwNCACAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjBIMjAwNCACAAA.shtml",
+        "http://fyydfy.ahcourt.gov.cn/article/index/id/MzAuNjAwMTAwNiACAAA.shtml"
+      ]
+    },
+    "ahtxfy.ahcourt.gov.cn": {
+      "scope": "仅已配置并真实核实的栏目及其子栏目",
+      "columns": [
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwNCAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwMiAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwNSAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDCwMCAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwMyAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwNyAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBINCAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBIMiAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBINiAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBIMSAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwMjAwNCACAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwAiPCAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDDIMSAOAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBIMTAwMiACAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBINDAwNCACAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwMzAwMiACAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDAwMzAwMSACAAA.shtml",
+        "http://ahtxfy.ahcourt.gov.cn/article/index/id/MzAuNDBIMTAwMSACAAA.shtml"
+      ]
+    },
+    "hsxnfy.ahcourt.gov.cn": {
+      "scope": "仅已配置并真实核实的栏目及其子栏目",
+      "columns": [
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwNCAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwMiAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwMyAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwMSAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwBCPCAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwNDAwNiACAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwNDAwMSACAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwNDAwNSACAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwNDAwMyACAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzBIMSAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzBINCAOAAA.shtml",
+        "http://hsxnfy.ahcourt.gov.cn/article/index/id/MzRONzAwMjAwNCACAAA.shtml"
+      ]
+    }
+  }
+}

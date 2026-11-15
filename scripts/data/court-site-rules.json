@@ -1,0 +1,16 @@
+{
+  "migrations": {
+    "www.ahcourt.gov.cn": "http://ahfy.ahcourt.gov.cn/",
+    "ahxxcourt.gov.cn": "http://fy.ahxxcourt.gov.cn/"
+  },
+  "template": "court-essearch-post-session",
+  "keywords": [
+    "管理人",
+    "清算组"
+  ],
+  "paused_sites": {
+    "jhsfy.ahcourt.gov.cn": {
+      "reason": "旧网址重复HTTP404，未取得核实迁移地址；按用户要求停用"
+    }
+  }
+}
