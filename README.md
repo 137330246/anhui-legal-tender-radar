@@ -54,7 +54,7 @@ sh scripts/radar.sh report --run <上一步输出的 run 文件>
 | DeepSeek Harness | `~/.dsh/skills/` 或项目内 `.dsh/skills/` |
 | WorkBuddy | `~/.workbuddy/skills/` |
 
-也可以用 SkillHub 安装：`skillhub install anhui-legal-tender-radar --dir <上表中的目录>`。SkillHub 不允许上传脚本文件，所以从 SkillHub 安装的版本**没有** `radar.cmd` / `radar.sh` 两个启动脚本，Agent 会按 SKILL.md 自己寻找 Python，使用上没有区别。要在命令行手动运行，请从 GitHub 获取完整版本，或直接用 `python scripts/radar.py`。
+也可以用 SkillHub 安装：`skillhub install anhui-legal-tender-radar --dir <上表中的目录>`。SkillHub 不允许上传 Windows 批处理文件，所以从 SkillHub 安装的版本**没有** `radar.cmd`（`radar.sh` 仍然有）。Windows 上 Agent 会按 SKILL.md 自己寻找 Python，使用上没有区别；要在命令行手动运行，请从 GitHub 获取完整版本，或直接用 `py scriptsadar.py`。
 
 然后直接对 Agent 说：
 

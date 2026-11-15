@@ -7,7 +7,7 @@
 - **启动脚本**：`scripts/radar.cmd`（Windows）和 `scripts/radar.sh`（macOS / Linux）自动寻找 Python 3.9+，依次尝试环境变量 `RADAR_PYTHON`、`py`、`python`、`python3`，以及 WorkBuddy 自带的 Python。找不到时打印各系统的安装方法，并以退出码 127 结束。SKILL.md 和文档中的命令统一改为通过启动脚本运行。
 - **简易模式**（`references/no-python.md`）：没有 Python、用户又不安装时，Agent 只用自带的联网搜索和网页读取完成检索与核实。报告醒目标注简易模式及其局限；不调用官方检索接口、不扫描法院官网、不能自动推送。
 - SKILL.md 新增第 0 步「检查运行环境」：交互场景下询问用户是安装还是用简易模式，定时任务找不到 Python 时直接走简易模式。
-- SkillHub 不允许上传脚本文件（`.cmd`、`.bat` 均被拒），SkillHub 版本不含启动脚本。SKILL.md 第 0 步同时写明了没有启动脚本时 Agent 如何按同样顺序自行寻找 Python，两个版本使用同一份 SKILL.md。
+- SkillHub 不允许上传 Windows 批处理文件（`.cmd`、`.bat` 均被拒；`.sh` 可以），SkillHub 版本不含 `radar.cmd`。SKILL.md 第 0 步同时写明了没有启动脚本时 Agent 如何按同样顺序自行寻找 Python，两个版本使用同一份 SKILL.md。
 
 ### 修复
 

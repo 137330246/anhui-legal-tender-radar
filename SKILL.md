@@ -52,7 +52,7 @@ metadata:
 - 如果 `<skill>/scripts/` 里有启动脚本（从 GitHub 获取的版本有），直接用它，它会自动寻找 Python 3.9+：
   - Windows：`radar` = `<skill>\scripts\radar.cmd`
   - macOS / Linux：`radar` = `sh <skill>/scripts/radar.sh`
-- 如果没有启动脚本（例如从 SkillHub 安装，平台不允许上传脚本文件），按下面的顺序自己找。对每个候选运行 `<候选> -c "import sys; print(sys.version_info >= (3, 9))"`，第一个输出 `True` 的就是可用的 Python，记为 `<python>`，此后 `radar` = `<python> -X utf8 <skill>/scripts/radar.py`：
+- 如果没有启动脚本（例如在 Windows 上从 SkillHub 安装，平台不允许上传 `.cmd` 文件），按下面的顺序自己找。对每个候选运行 `<候选> -c "import sys; print(sys.version_info >= (3, 9))"`，第一个输出 `True` 的就是可用的 Python，记为 `<python>`，此后 `radar` = `<python> -X utf8 <skill>/scripts/radar.py`：
   1. 环境变量 `RADAR_PYTHON` 指向的程序
   2. `py`（仅 Windows）、`python3`、`python`
   3. WorkBuddy 自带的 Python：Windows 为 `%LOCALAPPDATA%\Programs\WorkBuddy\resources\vendor\python\python.exe`；macOS 为 `/Applications/WorkBuddy.app/Contents/Resources/vendor/python/bin/python3`（未经确认）
