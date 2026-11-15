@@ -7,3 +7,4 @@ __pycache__/
 /leads*.json
 /run-*.json
 *.log
+/secrets.json
